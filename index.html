@@ -1,0 +1,3262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Phần Mềm Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .admin-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            opacity: 0.4;
+        }
+        
+        .admin-btn:hover {
+            opacity: 0.6;
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .search-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .category-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .contact-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+        
+        .floating-contact {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .admin-tab {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .admin-table {
+            overflow-x: auto;
+        }
+
+        .admin-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .admin-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pagination button:hover {
+            background: #f3f4f6;
+        }
+
+        .pagination button.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .unlimited-badge {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .storage-unlimited {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 4s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-animation {
+            animation: successPulse 0.6s ease-out;
+        }
+
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .price-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .testimonial-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .stats-counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Admin Button -->
+    <button class="admin-btn" onclick="handleAdminClick()" title=""></button>
+
+    <!-- Header -->
+    <header class="gradient-bg text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl font-bold mb-2">
+                🏪 Shop Phần Mềm Premium
+            </h1>
+            <p class="text-lg text-gray-100">
+                Chuyên cung cấp phần mềm bản quyền chính hãng với giá tốt nhất
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Search and Categories -->
+        <section class="mb-8">
+            <!-- Search Box -->
+            <div class="max-w-lg mx-auto mb-6">
+                <div class="search-box rounded-xl p-3 shadow-lg">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Tìm kiếm sản phẩm..." 
+                            class="w-full p-4 pl-12 pr-4 border border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none text-lg"
+                            onkeyup="searchProducts()"
+                        >
+                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div id="categoriesFilter" class="flex flex-wrap justify-center gap-3 mb-6">
+                <!-- Categories will be loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl font-bold text-gray-800 mb-6">💎 Sản Phẩm Bản Quyền</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Tất cả phần mềm đều chính hãng, cập nhật thường xuyên và có hỗ trợ kỹ thuật đầy đủ
+                </p>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Products will be loaded dynamically -->
+            </div>
+
+            <!-- Pagination -->
+            <div id="productsPagination" class="pagination">
+                <!-- Pagination will be loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl font-bold text-gray-800 mb-6">🎁 Tài Nguyên Miễn Phí</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Tải xuống miễn phí các tài nguyên hữu ích cho công việc của bạn
+                </p>
+            </div>
+
+            <!-- Resources Grid -->
+            <div id="resourcesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Resources will be loaded dynamically -->
+            </div>
+
+            <!-- Resources Pagination -->
+            <div id="resourcesPagination" class="pagination">
+                <!-- Pagination will be loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl font-bold text-gray-800 mb-6">⭐ Tại Sao Chọn Chúng Tôi?</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Những lý do khiến hàng nghìn khách hàng tin tựa và lựa chọn dịch vụ của chúng tôi
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="feature-card p-8 rounded-2xl text-center shadow-lg">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">100% Chính Hãng</h3>
+                    <p class="text-gray-600">Tất cả phần mềm đều là bản quyền chính hãng, đảm bảo an toàn và cập nhật thường xuyên</p>
+                </div>
+
+                <div class="feature-card p-8 rounded-2xl text-center shadow-lg">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-headset text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Hỗ Trợ 24/7</h3>
+                    <p class="text-gray-600">Đội ngũ kỹ thuật chuyên nghiệp sẵn sàng hỗ trợ cài đặt và giải đáp mọi thắc mắc</p>
+                </div>
+
+                <div class="feature-card p-8 rounded-2xl text-center shadow-lg">
+                    <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-rocket text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Giao Hàng Nhanh</h3>
+                    <p class="text-gray-600">Nhận key và hướng dẫn cài đặt ngay sau khi thanh toán, không phải chờ đợi</p>
+                </div>
+
+                <div class="feature-card p-8 rounded-2xl text-center shadow-lg">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-infinity text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Bảo Hành Trọn Đời</h3>
+                    <p class="text-gray-600">Cam kết hỗ trợ và bảo hành sản phẩm trọn đời, thay thế miễn phí nếu có lỗi</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-white">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">🏆 Thành Tích Của Chúng Tôi</h2>
+                    <p class="text-xl text-indigo-100">Những con số ấn tượng sau nhiều năm phục vụ khách hàng</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="text-5xl font-bold stats-counter mb-2" data-target="10000">0</div>
+                        <p class="text-indigo-200 text-lg">Khách hàng hài lòng</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold stats-counter mb-2" data-target="100%">0</div>
+                        <p class="text-indigo-200 text-lg">Sản phẩm chất lượng</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold stats-counter mb-2" data-target="99">0</div>
+                        <p class="text-indigo-200 text-lg">% Đánh giá tích cực</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold stats-counter mb-2" data-target="7">0</div>
+                        <p class="text-indigo-200 text-lg">Năm kinh nghiệm</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl font-bold text-gray-800 mb-6">💬 Khách Hàng Nói Gì Về Chúng Tôi</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Những phản hồi chân thực từ khách hàng đã sử dụng dịch vụ của chúng tôi
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="testimonial-card p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
+                            A
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Anh Minh</h4>
+                            <p class="text-gray-600 text-sm">Designer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic mb-4">"Adobe Creative Suite mua ở đây rất ổn, key chính hãng và có hỗ trợ cài đặt tận tình. Giá cả hợp lý, chất lượng tuyệt vời!"</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
+                            L
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Chị Linh</h4>
+                            <p class="text-gray-600 text-sm">Content Creator</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic mb-4">"Canva Pro ở đây giá rẻ mà chất lượng cao, tài khoản hoạt động ổn định. Team hỗ trợ rất nhiệt tình và chuyên nghiệp."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
+                            T
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Anh Tuấn</h4>
+                            <p class="text-gray-600 text-sm">YouTuber</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic mb-4">"Mua CapCut Pro ở đây được hỗ trợ cài đặt từ A-Z, phần mềm chạy mượt mà. Sẽ tiếp tục ủng hộ shop lâu dài!"</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl font-bold text-gray-800 mb-6">📞 Liên Hệ Với Chúng Tôi</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+                    Hãy liên hệ để được tư vấn và hỗ trợ tốt nhất
+                </p>
+            </div>
+
+            <!-- Contact Icons -->
+            <div class="flex justify-center items-center space-x-8 mb-12">
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/retouchhdr" target="_blank" class="contact-icon group">
+                    <div class="bg-blue-600 hover:bg-blue-700 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fab fa-facebook text-3xl"></i>
+                    </div>
+                    <p class="text-center mt-3 font-medium text-gray-700 group-hover:text-blue-600">Facebook</p>
+                </a>
+
+                <!-- Phone -->
+                <a href="tel:0862481327" class="contact-icon group">
+                    <div class="bg-green-600 hover:bg-green-700 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-phone text-3xl"></i>
+                    </div>
+                    <p class="text-center mt-3 font-medium text-gray-700 group-hover:text-green-600">0862 481 327</p>
+                </a>
+
+                <!-- Zalo -->
+                <a href="https://zalo.me/0862481327" target="_blank" class="contact-icon group">
+                    <div class="bg-blue-500 hover:bg-blue-600 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-comments text-3xl"></i>
+                    </div>
+                    <p class="text-center mt-3 font-medium text-gray-700 group-hover:text-blue-600">Zalo</p>
+                </a>
+
+                <!-- Email -->
+                <a href="mailto:contact@example.com" class="contact-icon group">
+                    <div class="bg-red-600 hover:bg-red-700 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-envelope text-3xl"></i>
+                    </div>
+                    <p class="text-center mt-3 font-medium text-gray-700 group-hover:text-red-600">Email</p>
+                </a>
+            </div>
+
+            <!-- Contact Info Card -->
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Thông tin liên hệ</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-phone text-green-600 text-xl mr-4"></i>
+                                <span class="text-lg">0862 481 327</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fab fa-facebook text-blue-600 text-xl mr-4"></i>
+                                <span class="text-lg">facebook.com/retouchhdr</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-purple-600 text-xl mr-4"></i>
+                                <span class="text-lg">8:00 - 22:00 (Thứ 2 - Chủ nhật)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Cam kết của chúng tôi</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Phần mềm kích hoạt bản quyền</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Hỗ trợ cài đặt miễn phí</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Bảo hành 24/7</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Giá cả cạnh tranh nhất</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Contact Button -->
+    <div class="floating-contact">
+        <a href="https://www.facebook.com/retouchhdr" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all">
+            <i class="fab fa-facebook text-2xl"></i>
+        </a>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" onclick="scrollToTop()" title="Lên đầu trang">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Shop Phần Mềm Premium</h3>
+                    <p class="text-gray-300 mb-4">
+                        Chuyên cung cấp phần mềm chính hãng với giá tốt nhất thị trường.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Liên hệ</h4>
+                    <div class="space-y-2 text-gray-300">
+                        <p><i class="fas fa-phone mr-2"></i>0862 481 327</p>
+                        <p><i class="fab fa-facebook mr-2"></i>facebook.com/retouchhdr</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Giờ làm việc</h4>
+                    <p class="text-gray-300">8:00 - 22:00</p>
+                    <p class="text-gray-300">Thứ 2 - Chủ nhật</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Shop Phần Mềm Premium. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Detail Modal -->
+    <div id="productDetailModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-2xl max-h-screen overflow-y-auto shadow-2xl m-4">
+            <div id="productDetailContent">
+                <!-- Product detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl m-4">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lock text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">Đăng nhập quản trị</h3>
+            </div>
+            <div class="mb-6">
+                <input type="password" id="adminPassword" placeholder="Nhập mật khẩu..." class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg">
+            </div>
+            <div class="flex space-x-4">
+                <button onclick="adminLogin()" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all font-medium text-lg">
+                    Đăng nhập
+                </button>
+                <button onclick="closeAdminLogin()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-400 transition-all font-medium text-lg">
+                    Hủy
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="hidden fixed inset-0 bg-gray-100 z-40 overflow-y-auto">
+        <div class="min-h-screen py-8">
+            <div class="container mx-auto px-6">
+                <!-- Admin Header -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-800 mb-2">🔧 Bảng điều khiển quản trị</h1>
+                            <p class="text-gray-600">Quản lý sản phẩm, tài nguyên và danh mục với dung lượng không giới hạn</p>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button onclick="testStorageWarning()" class="bg-yellow-600 text-white px-6 py-3 rounded-xl hover:bg-yellow-700 transition-all font-medium">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>Test cảnh báo
+                            </button>
+                            <button onclick="exportData()" class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-all font-medium">
+                                <i class="fas fa-download mr-2"></i>Xuất dữ liệu
+                            </button>
+                            <button onclick="showImportModal()" class="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-all font-medium">
+                                <i class="fas fa-upload mr-2"></i>Nhập dữ liệu
+                            </button>
+                            <button onclick="logout()" class="bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-all font-medium">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-blue-100 text-sm">Tổng sản phẩm</p>
+                                <p class="text-3xl font-bold" id="totalProducts">0</p>
+                            </div>
+                            <i class="fas fa-box text-4xl text-blue-200"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-green-100 text-sm">Tài nguyên miễn phí</p>
+                                <p class="text-3xl font-bold" id="totalResources">0</p>
+                            </div>
+                            <i class="fas fa-gift text-4xl text-green-200"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-orange-100 text-sm">Danh mục</p>
+                                <p class="text-3xl font-bold" id="totalCategories">0</p>
+                            </div>
+                            <i class="fas fa-tags text-4xl text-orange-200"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="storage-unlimited text-white p-6 rounded-xl shadow-lg cursor-pointer" onclick="showStorageDetails()">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-purple-100 text-sm">Dung lượng lưu trữ</p>
+                                <p class="text-2xl font-bold" id="storageUsageDisplay">Đang tải...</p>
+                                <p class="text-xs text-purple-200 mt-1" id="storagePercentage">Click để xem chi tiết</p>
+                            </div>
+                            <i class="fas fa-database text-4xl text-purple-200"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Tabs -->
+                <div class="bg-white rounded-2xl shadow-lg mb-8">
+                    <div class="flex border-b border-gray-200 overflow-x-auto">
+                        <button onclick="showAdminTab('products')" class="admin-tab active px-6 py-4 font-medium text-gray-700 border-b-2 border-transparent hover:text-indigo-600 hover:border-indigo-300 whitespace-nowrap">
+                            <i class="fas fa-box mr-2"></i>Quản lý sản phẩm
+                        </button>
+                        <button onclick="showAdminTab('resources')" class="admin-tab px-6 py-4 font-medium text-gray-700 border-b-2 border-transparent hover:text-indigo-600 hover:border-indigo-300 whitespace-nowrap">
+                            <i class="fas fa-gift mr-2"></i>Quản lý tài nguyên
+                        </button>
+                        <button onclick="showAdminTab('categories')" class="admin-tab px-6 py-4 font-medium text-gray-700 border-b-2 border-transparent hover:text-indigo-600 hover:border-indigo-300 whitespace-nowrap">
+                            <i class="fas fa-tags mr-2"></i>Quản lý danh mục
+                        </button>
+                        <button onclick="showAdminTab('storage')" class="admin-tab px-6 py-4 font-medium text-gray-700 border-b-2 border-transparent hover:text-indigo-600 hover:border-indigo-300 whitespace-nowrap">
+                            <i class="fas fa-infinity mr-2"></i>Lưu trữ không giới hạn
+                        </button>
+                        <button onclick="showAdminTab('analytics')" class="admin-tab px-6 py-4 font-medium text-gray-700 border-b-2 border-transparent hover:text-indigo-600 hover:border-indigo-300 whitespace-nowrap">
+                            <i class="fas fa-chart-bar mr-2"></i>Thống kê
+                        </button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="p-8">
+                        <!-- Products Tab -->
+                        <div id="productsTab" class="admin-tab-content">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-2xl font-bold text-gray-800">Danh sách sản phẩm <span class="text-green-600">(Không giới hạn)</span></h3>
+                                <button onclick="showAddProductModal()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-all font-medium">
+                                    <i class="fas fa-plus mr-2"></i>Thêm sản phẩm
+                                </button>
+                            </div>
+                            
+                            <div class="admin-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Giá</th>
+                                            <th>Danh mục</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productsTableBody">
+                                        <!-- Products will be loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Products Pagination -->
+                            <div id="adminProductsPagination" class="pagination">
+                                <!-- Pagination will be loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Resources Tab -->
+                        <div id="resourcesTab" class="admin-tab-content hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-2xl font-bold text-gray-800">Danh sách tài nguyên miễn phí <span class="text-green-600">(Không giới hạn)</span></h3>
+                                <button onclick="showAddResourceModal()" class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-all font-medium">
+                                    <i class="fas fa-plus mr-2"></i>Thêm tài nguyên
+                                </button>
+                            </div>
+                            
+                            <div class="admin-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên tài nguyên</th>
+                                            <th>Loại</th>
+                                            <th>Kích thước</th>
+                                            <th>Lượt tải</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="resourcesTableBody">
+                                        <!-- Resources will be loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Resources Pagination -->
+                            <div id="adminResourcesPagination" class="pagination">
+                                <!-- Pagination will be loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Categories Tab -->
+                        <div id="categoriesTab" class="admin-tab-content hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-2xl font-bold text-gray-800">Danh sách danh mục <span class="text-green-600">(Không giới hạn)</span></h3>
+                                <button onclick="showAddCategoryModal()" class="bg-purple-600 text-white px-6 py-3 rounded-xl hover:bg-purple-700 transition-all font-medium">
+                                    <i class="fas fa-plus mr-2"></i>Thêm danh mục
+                                </button>
+                            </div>
+                            
+                            <div class="admin-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên danh mục</th>
+                                            <th>Mô tả</th>
+                                            <th>Số sản phẩm</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="categoriesTableBody">
+                                        <!-- Categories will be loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Storage Tab -->
+                        <div id="storageTab" class="admin-tab-content hidden">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-6">
+                                <i class="fas fa-infinity text-purple-600 mr-2"></i>
+                                Hệ thống lưu trữ không giới hạn
+                            </h3>
+                            
+                            <!-- Storage Overview -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div class="storage-unlimited text-white p-8 rounded-xl shadow-lg">
+                                    <h4 class="text-2xl font-bold mb-6 flex items-center">
+                                        <i class="fas fa-infinity mr-3"></i>
+                                        Dung lượng không giới hạn
+                                    </h4>
+                                    <div class="space-y-4">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-lg">Sản phẩm:</span>
+                                            <span class="text-2xl font-bold unlimited-badge">∞ TB</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-lg">Tài nguyên:</span>
+                                            <span class="text-2xl font-bold unlimited-badge">∞ TB</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-lg">Hình ảnh:</span>
+                                            <span class="text-2xl font-bold unlimited-badge">∞ TB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-8 rounded-xl shadow-lg">
+                                    <h4 class="text-2xl font-bold mb-6">Tính năng nâng cao</h4>
+                                    <div class="space-y-4">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-check-circle text-green-200 mr-3 text-xl"></i>
+                                            <span class="text-lg">Tự động sao lưu</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-check-circle text-green-200 mr-3 text-xl"></i>
+                                            <span class="text-lg">Nén dữ liệu thông minh</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-check-circle text-green-200 mr-3 text-xl"></i>
+                                            <span class="text-lg">Đồng bộ đa thiết bị</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-check-circle text-green-200 mr-3 text-xl"></i>
+                                            <span class="text-lg">Bảo mật cấp doanh nghiệp</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Performance Stats -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-8 mb-6">
+                                <h4 class="text-2xl font-bold text-gray-800 mb-6">Hiệu suất hệ thống</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div class="text-center p-6 bg-blue-50 rounded-xl">
+                                        <i class="fas fa-tachometer-alt text-4xl text-blue-600 mb-4"></i>
+                                        <h5 class="text-xl font-bold text-gray-800">Tốc độ tải</h5>
+                                        <p class="text-3xl font-bold text-blue-600">99.9%</p>
+                                        <p class="text-gray-600">Uptime</p>
+                                    </div>
+                                    <div class="text-center p-6 bg-green-50 rounded-xl">
+                                        <i class="fas fa-shield-alt text-4xl text-green-600 mb-4"></i>
+                                        <h5 class="text-xl font-bold text-gray-800">Bảo mật</h5>
+                                        <p class="text-3xl font-bold text-green-600">256-bit</p>
+                                        <p class="text-gray-600">Mã hóa SSL</p>
+                                    </div>
+                                    <div class="text-center p-6 bg-purple-50 rounded-xl">
+                                        <i class="fas fa-sync-alt text-4xl text-purple-600 mb-4"></i>
+                                        <h5 class="text-xl font-bold text-gray-800">Đồng bộ</h5>
+                                        <p class="text-3xl font-bold text-purple-600">Real-time</p>
+                                        <p class="text-gray-600">Cập nhật tức thì</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- File Manager -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-8">
+                                <h4 class="text-2xl font-bold text-gray-800 mb-6">Quản lý tệp tin nâng cao</h4>
+                                <div class="admin-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Tên tệp</th>
+                                                <th>Loại</th>
+                                                <th>Kích thước</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Trạng thái</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><i class="fas fa-image text-blue-500 mr-2"></i>adobe-logo.png</td>
+                                                <td><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Hình ảnh</span></td>
+                                                <td>245 KB</td>
+                                                <td>15/12/2024</td>
+                                                <td><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Đã đồng bộ</span></td>
+                                                <td>
+                                                    <button class="text-blue-600 hover:text-blue-800 mr-3" title="Tải xuống">
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                    <button class="text-green-600 hover:text-green-800 mr-3" title="Chia sẻ">
+                                                        <i class="fas fa-share-alt"></i>
+                                                    </button>
+                                                    <button class="text-red-600 hover:text-red-800" title="Xóa">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fas fa-image text-blue-500 mr-2"></i>canva-logo.png</td>
+                                                <td><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Hình ảnh</span></td>
+                                                <td>189 KB</td>
+                                                <td>15/12/2024</td>
+                                                <td><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Đã đồng bộ</span></td>
+                                                <td>
+                                                    <button class="text-blue-600 hover:text-blue-800 mr-3" title="Tải xuống">
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                    <button class="text-green-600 hover:text-green-800 mr-3" title="Chia sẻ">
+                                                        <i class="fas fa-share-alt"></i>
+                                                    </button>
+                                                    <button class="text-red-600 hover:text-red-800" title="Xóa">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Analytics Tab -->
+                        <div id="analyticsTab" class="admin-tab-content hidden">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-6">Thống kê và báo cáo</h3>
+                            
+                            <!-- Analytics Cards -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                    <h4 class="text-lg font-bold text-gray-800 mb-4">Lượt truy cập hôm nay</h4>
+                                    <p class="text-3xl font-bold text-blue-600">1,234</p>
+                                    <p class="text-green-600 text-sm mt-2">
+                                        <i class="fas fa-arrow-up mr-1"></i>+12% so với hôm qua
+                                    </p>
+                                </div>
+                                
+                                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                    <h4 class="text-lg font-bold text-gray-800 mb-4">Đơn hàng trong tuần</h4>
+                                    <p class="text-3xl font-bold text-green-600">89</p>
+                                    <p class="text-green-600 text-sm mt-2">
+                                        <i class="fas fa-arrow-up mr-1"></i>+8% so với tuần trước
+                                    </p>
+                                </div>
+                                
+                                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                    <h4 class="text-lg font-bold text-gray-800 mb-4">Doanh thu tháng này</h4>
+                                    <p class="text-3xl font-bold text-purple-600">24.5M VNĐ</p>
+                                    <p class="text-green-600 text-sm mt-2">
+                                        <i class="fas fa-arrow-up mr-1"></i>+15% so với tháng trước
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Popular Products -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+                                <h4 class="text-xl font-bold text-gray-800 mb-4">Sản phẩm bán chạy</h4>
+                                <div class="admin-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Sản phẩm</th>
+                                                <th>Số lượng bán</th>
+                                                <th>Doanh thu</th>
+                                                <th>Tỷ lệ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Adobe Creative Suite 2024</td>
+                                                <td>45</td>
+                                                <td>13.455.000 VNĐ</td>
+                                                <td>
+                                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                                        <div class="bg-blue-600 h-2 rounded-full" style="width: 85%"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Canva Pro Premium</td>
+                                                <td>32</td>
+                                                <td>6.368.000 VNĐ</td>
+                                                <td>
+                                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                                        <div class="bg-green-600 h-2 rounded-full" style="width: 60%"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Google Drive Unlimited</td>
+                                                <td>28</td>
+                                                <td>2.772.000 VNĐ</td>
+                                                <td>
+                                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                                        <div class="bg-purple-600 h-2 rounded-full" style="width: 50%"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activities -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                <h4 class="text-xl font-bold text-gray-800 mb-4">Hoạt động gần đây</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                                        <i class="fas fa-shopping-cart text-blue-600 mr-3"></i>
+                                        <div>
+                                            <p class="font-medium">Đơn hàng mới #1234</p>
+                                            <p class="text-sm text-gray-600">Adobe Creative Suite 2024 - 5 phút trước</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                                        <i class="fas fa-download text-green-600 mr-3"></i>
+                                        <div>
+                                            <p class="font-medium">Tải tài nguyên</p>
+                                            <p class="text-sm text-gray-600">Template Photoshop - 12 phút trước</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                                        <i class="fas fa-user-plus text-purple-600 mr-3"></i>
+                                        <div>
+                                            <p class="font-medium">Khách hàng mới</p>
+                                            <p class="text-sm text-gray-600">Nguyễn Văn A đã đăng ký - 25 phút trước</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-2xl shadow-2xl m-4 max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="productModalTitle" class="text-2xl font-bold text-gray-800">Thêm sản phẩm mới</h3>
+                <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label for="productName">Tên sản phẩm *</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Giá (VNĐ) *</label>
+                    <input type="number" id="productPrice" required>
+                </div>
+                <div class="form-group">
+                    <label for="productImage">URL hình ảnh *</label>
+                    <input type="url" id="productImage" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">Danh mục *</label>
+                    <select id="productCategory" required>
+                        <!-- Categories will be loaded dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Mô tả *</label>
+                    <textarea id="productDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productStatus">Trạng thái</label>
+                    <select id="productStatus">
+                        <option value="active">Hoạt động</option>
+                        <option value="inactive">Không hoạt động</option>
+                    </select>
+                </div>
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 transition-all font-medium">
+                        Lưu sản phẩm
+                    </button>
+                    <button type="button" onclick="closeProductModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-400 transition-all font-medium">
+                        Hủy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Resource Modal -->
+    <div id="resourceModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-2xl shadow-2xl m-4 max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="resourceModalTitle" class="text-2xl font-bold text-gray-800">Thêm tài nguyên mới</h3>
+                <button onclick="closeResourceModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="resourceForm">
+                <input type="hidden" id="resourceId">
+                <div class="form-group">
+                    <label for="resourceName">Tên tài nguyên *</label>
+                    <input type="text" id="resourceName" required>
+                </div>
+                <div class="form-group">
+                    <label for="resourceType">Loại tài nguyên *</label>
+                    <select id="resourceType" required>
+                        <option value="Template">Template</option>
+                        <option value="Font">Font</option>
+                        <option value="Photo">Photo</option>
+                        <option value="Icon">Icon</option>
+                        <option value="Video">Video</option>
+                        <option value="Audio">Audio</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="resourceImage">URL hình ảnh *</label>
+                    <input type="url" id="resourceImage" required>
+                </div>
+                <div class="form-group">
+                    <label for="resourceDescription">Mô tả *</label>
+                    <textarea id="resourceDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="resourceSize">Kích thước</label>
+                    <input type="text" id="resourceSize" placeholder="VD: 245 MB">
+                </div>
+                <div class="form-group">
+                    <label for="resourceDownloadUrl">URL tải xuống *</label>
+                    <input type="url" id="resourceDownloadUrl" required>
+                </div>
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 bg-green-600 text-white py-3 rounded-xl hover:bg-green-700 transition-all font-medium">
+                        Lưu tài nguyên
+                    </button>
+                    <button type="button" onclick="closeResourceModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-400 transition-all font-medium">
+                        Hủy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Category Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-lg shadow-2xl m-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="categoryModalTitle" class="text-2xl font-bold text-gray-800">Thêm danh mục mới</h3>
+                <button onclick="closeCategoryModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="categoryForm">
+                <input type="hidden" id="categoryId">
+                <div class="form-group">
+                    <label for="categoryName">Tên danh mục *</label>
+                    <input type="text" id="categoryName" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoryDescription">Mô tả</label>
+                    <textarea id="categoryDescription"></textarea>
+                </div>
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 bg-purple-600 text-white py-3 rounded-xl hover:bg-purple-700 transition-all font-medium">
+                        Lưu danh mục
+                    </button>
+                    <button type="button" onclick="closeCategoryModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-400 transition-all font-medium">
+                        Hủy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Import Data Modal -->
+    <div id="importModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-lg shadow-2xl m-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Nhập dữ liệu</h3>
+                <button onclick="closeImportModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Chọn file JSON để nhập:</label>
+                <input type="file" id="importFile" accept=".json" class="w-full p-3 border border-gray-300 rounded-xl">
+            </div>
+            <div class="flex space-x-4">
+                <button onclick="importData()" class="flex-1 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-all font-medium">
+                    <i class="fas fa-upload mr-2"></i>Nhập dữ liệu
+                </button>
+                <button onclick="closeImportModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-400 transition-all font-medium">
+                    Hủy
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Storage Details Modal -->
+    <div id="storageModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-2xl shadow-2xl m-4 max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-database text-blue-600 mr-2"></i>
+                    Chi tiết dung lượng lưu trữ
+                </h3>
+                <button onclick="closeStorageModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Storage Overview -->
+            <div class="mb-8">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-xl mb-6">
+                    <h4 class="text-xl font-bold mb-4">Tổng quan dung lượng</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-blue-100 text-sm">Đã sử dụng</p>
+                            <p class="text-2xl font-bold" id="modalStorageUsed">-</p>
+                        </div>
+                        <div>
+                            <p class="text-blue-100 text-sm">Còn lại (ước tính)</p>
+                            <p class="text-2xl font-bold" id="modalStorageRemaining">-</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span>Tỷ lệ sử dụng</span>
+                            <span id="modalStoragePercentage">-</span>
+                        </div>
+                        <div class="w-full bg-blue-300 rounded-full h-3">
+                            <div id="modalStorageBar" class="bg-white h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Storage Breakdown -->
+            <div class="mb-8">
+                <h4 class="text-lg font-bold text-gray-800 mb-4">Phân tích chi tiết</h4>
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-box text-blue-600 mr-3"></i>
+                                <span class="font-medium">Sản phẩm</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold" id="productsStorageSize">-</p>
+                                <p class="text-sm text-gray-600" id="productsCount">-</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-gift text-green-600 mr-3"></i>
+                                <span class="font-medium">Tài nguyên</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold" id="resourcesStorageSize">-</p>
+                                <p class="text-sm text-gray-600" id="resourcesCount">-</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-tags text-purple-600 mr-3"></i>
+                                <span class="font-medium">Danh mục</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold" id="categoriesStorageSize">-</p>
+                                <p class="text-sm text-gray-600" id="categoriesCount">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Storage Tips -->
+            <div class="mb-6">
+                <h4 class="text-lg font-bold text-gray-800 mb-4">💡 Mẹo tối ưu dung lượng</h4>
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i>
+                            <span>Sử dụng URL hình ảnh ngắn gọn thay vì URL dài</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i>
+                            <span>Xóa sản phẩm/tài nguyên không còn sử dụng</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i>
+                            <span>Xuất dữ liệu thường xuyên để sao lưu</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i>
+                            <span>Viết mô tả ngắn gọn nhưng đầy đủ thông tin</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex space-x-4">
+                <button onclick="exportData()" class="flex-1 bg-green-600 text-white py-3 rounded-xl hover:bg-green-700 transition-all font-medium">
+                    <i class="fas fa-download mr-2"></i>Xuất dữ liệu
+                </button>
+                <button onclick="refreshStorageInfo()" class="flex-1 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-all font-medium">
+                    <i class="fas fa-sync-alt mr-2"></i>Làm mới
+                </button>
+                <button onclick="closeStorageModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-400 transition-all font-medium">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Management System
+        class DataManager {
+            constructor() {
+                this.products = this.loadProducts();
+                this.resources = this.loadResources();
+                this.categories = this.loadCategories();
+                this.currentPage = 1;
+                this.itemsPerPage = 8;
+                this.resourcesCurrentPage = 1;
+                this.resourcesItemsPerPage = 8;
+                this.adminCurrentPage = 1;
+                this.adminItemsPerPage = 10;
+                this.currentFilter = 'all';
+                this.searchTerm = '';
+                this.storageWarningShown = false;
+                this.checkStorageUsage();
+            }
+
+            // Storage monitoring functions
+            getStorageUsage() {
+                let totalSize = 0;
+                let usedSize = 0;
+                
+                // Calculate used storage
+                for (let key in localStorage) {
+                    if (localStorage.hasOwnProperty(key)) {
+                        usedSize += localStorage[key].length + key.length;
+                    }
+                }
+                
+                // Estimate total available storage (usually around 5-10MB)
+                // We'll use a conservative estimate of 5MB
+                const estimatedTotalStorage = 5 * 1024 * 1024; // 5MB in bytes
+                
+                return {
+                    used: usedSize,
+                    total: estimatedTotalStorage,
+                    percentage: (usedSize / estimatedTotalStorage) * 100,
+                    remaining: estimatedTotalStorage - usedSize
+                };
+            }
+
+            formatBytes(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            checkStorageUsage() {
+                const usage = this.getStorageUsage();
+                
+                // Show warning at 80% usage
+                if (usage.percentage >= 80 && !this.storageWarningShown) {
+                    this.showStorageWarning(usage);
+                    this.storageWarningShown = true;
+                }
+                
+                // Show critical warning at 95% usage
+                if (usage.percentage >= 95) {
+                    this.showStorageCriticalWarning(usage);
+                }
+                
+                return usage;
+            }
+
+            showStorageWarning(usage) {
+                const message = `⚠️ CẢNH BÁO DUNG LƯỢNG!\n\n📊 Đã sử dụng: ${this.formatBytes(usage.used)} (${usage.percentage.toFixed(1)}%)\n💾 Còn lại: ${this.formatBytes(usage.remaining)}\n\n💡 Khuyến nghị:\n• Xuất dữ liệu để sao lưu\n• Xóa bớt sản phẩm/tài nguyên không cần thiết\n• Sử dụng URL hình ảnh ngắn gọn hơn`;
+                
+                this.showEnhancedNotification('Dung lượng sắp đầy', message, 'warning');
+            }
+
+            showStorageCriticalWarning(usage) {
+                const message = `🚨 DUNG LƯỢNG CẬN ĐẦY!\n\n📊 Đã sử dụng: ${this.formatBytes(usage.used)} (${usage.percentage.toFixed(1)}%)\n💾 Còn lại: ${this.formatBytes(usage.remaining)}\n\n⚠️ Hành động ngay:\n• XUẤT DỮ LIỆU ngay lập tức\n• XÓA dữ liệu không cần thiết\n• Có thể mất dữ liệu nếu không xử lý!`;
+                
+                this.showEnhancedNotification('DUNG LƯỢNG CẬN ĐẦY!', message, 'error');
+            }
+
+            showEnhancedNotification(title, message, type = 'info') {
+                // Remove existing notifications
+                const existingNotifications = document.querySelectorAll('.storage-notification');
+                existingNotifications.forEach(notification => notification.remove());
+                
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = `storage-notification fixed top-4 right-4 z-50 max-w-md transition-all duration-300 transform translate-x-full`;
+                
+                // Set colors and icons based on type
+                const config = {
+                    success: { 
+                        bg: 'bg-green-500', 
+                        icon: 'fas fa-check-circle',
+                        border: 'border-green-400'
+                    },
+                    error: { 
+                        bg: 'bg-red-500', 
+                        icon: 'fas fa-exclamation-circle',
+                        border: 'border-red-400'
+                    },
+                    warning: { 
+                        bg: 'bg-yellow-500', 
+                        icon: 'fas fa-exclamation-triangle',
+                        border: 'border-yellow-400'
+                    },
+                    info: { 
+                        bg: 'bg-blue-500', 
+                        icon: 'fas fa-info-circle',
+                        border: 'border-blue-400'
+                    }
+                };
+                
+                const typeConfig = config[type] || config.info;
+                
+                notification.innerHTML = `
+                    <div class="bg-white rounded-xl shadow-2xl border-l-4 ${typeConfig.border} overflow-hidden">
+                        <div class="p-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 ${typeConfig.bg} rounded-full flex items-center justify-center">
+                                        <i class="${typeConfig.icon} text-white text-sm"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <h4 class="text-sm font-bold text-gray-900">${title}</h4>
+                                    <p class="text-xs text-gray-600 mt-1 whitespace-pre-line">${message}</p>
+                                </div>
+                                <button onclick="this.closest('.storage-notification').remove()" class="ml-3 text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-times text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add to page
+                document.body.appendChild(notification);
+                
+                // Animate in
+                setTimeout(() => {
+                    notification.classList.remove('translate-x-full');
+                }, 100);
+                
+                // Auto remove after 10 seconds for warnings, 15 for errors
+                const autoRemoveTime = type === 'error' ? 15000 : 10000;
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.classList.add('translate-x-full');
+                        setTimeout(() => {
+                            if (notification.parentElement) {
+                                notification.remove();
+                            }
+                        }, 300);
+                    }
+                }, autoRemoveTime);
+            }
+
+            // Load data from localStorage or use defaults
+            loadProducts() {
+                const saved = localStorage.getItem('shopProducts');
+                return saved ? JSON.parse(saved) : {
+                    1: {
+                        id: 1,
+                        name: 'Adobe Creative Suite 2024',
+                        price: '299,000 VNĐ',
+                        priceNumber: 299000,
+                        image: 'https://i.postimg.cc/FsMRtbQw/ADOBE.png',
+                        description: `Bộ phần mềm Adobe đầy đủ bao gồm Photoshop, Illustrator, Premiere Pro, After Effects và nhiều ứng dụng khác.
+
+Phiên bản mới nhất với đầy đủ tính năng chuyên nghiệp:
+• Photoshop CC 2024 - Chỉnh sửa ảnh chuyên nghiệp
+• Illustrator CC 2024 - Thiết kế vector
+• Premiere Pro CC 2024 - Chỉnh sửa video
+• After Effects CC 2024 - Hiệu ứng và motion graphics
+• InDesign CC 2024 - Thiết kế layout
+
+Hỗ trợ cài đặt và kích hoạt trọn đời.`,
+                        category: 'Adobe',
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    },
+                    2: {
+                        id: 2,
+                        name: 'Canva Pro Premium',
+                        price: '199,000 VNĐ',
+                        priceNumber: 199000,
+                        image: 'https://i.postimg.cc/QdRvSPgM/canva.png',
+                        description: `Tài khoản Canva Pro với đầy đủ tính năng thiết kế chuyên nghiệp.
+
+Tính năng nổi bật:
+• Hàng triệu template cao cấp
+• Thư viện ảnh và video premium
+• Công cụ AI tạo nội dung
+• Xóa phông nền tự động
+• Resize thiết kế một cách thông minh
+• Lưu trữ không giới hạn
+• Làm việc nhóm chuyên nghiệp
+
+Phù hợp cho designer, marketer và doanh nghiệp.`,
+                        category: 'Design',
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    },
+                    3: {
+                        id: 3,
+                        name: 'CapCut Pro',
+                        price: '149,000 VNĐ',
+                        priceNumber: 149000,
+                        image: 'https://i.postimg.cc/Y0qNzLq7/capcut.png',
+                        description: `Phần mềm chỉnh sửa video chuyên nghiệp với nhiều hiệu ứng đẹp và công cụ AI tiên tiến.
+
+Tính năng chính:
+• Chỉnh sửa video 4K không giới hạn
+• Hàng nghìn hiệu ứng và filter
+• Công cụ AI tự động cắt ghép
+• Thư viện nhạc nền bản quyền
+• Xuất video không watermark
+• Hỗ trợ nhiều định dạng
+• Giao diện thân thiện
+
+Lý tưởng cho content creator và YouTuber.`,
+                        category: 'Video',
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    },
+                    4: {
+                        id: 4,
+                        name: 'Google Drive Unlimited',
+                        price: '99,000 VNĐ',
+                        priceNumber: 99000,
+                        image: 'https://i.postimg.cc/8zNwxQqL/drive.png',
+                        description: `Dung lượng Google Drive không giới hạn cho lưu trữ file, ảnh, video và tài liệu.
+
+Lợi ích:
+• Lưu trữ không giới hạn
+• Đồng bộ trên mọi thiết bị
+• Chia sẻ file dễ dàng
+• Bảo mật cao với mã hóa
+• Truy cập offline
+• Tích hợp Google Workspace
+• Sao lưu tự động
+
+Giải pháp lưu trữ đám mây tối ưu cho cá nhân và doanh nghiệp.`,
+                        category: 'Storage',
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    },
+                    5: {
+                        id: 5,
+                        name: 'Windows 11 Pro Key',
+                        price: '79,000 VNĐ',
+                        priceNumber: 79000,
+                        image: 'https://i.postimg.cc/L6BcGzpR/windows.png',
+                        description: `Key bản quyền Windows 11 Pro chính hãng, kích hoạt trọn đời với đầy đủ tính năng.
+
+Tính năng Windows 11 Pro:
+• Giao diện hiện đại và mượt mà
+• Bảo mật nâng cao với TPM 2.0
+• Windows Hello sinh trắc học
+• BitLocker mã hóa ổ cứng
+• Hyper-V ảo hóa
+• Remote Desktop
+• Group Policy Management
+
+Hỗ trợ kích hoạt từ xa và bảo hành trọn đời.`,
+                        category: 'OS',
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    },
+                    6: {
+                        id: 6,
+                        name: 'Meitu Premium',
+                        price: '129,000 VNĐ',
+                        priceNumber: 129000,
+                        image: 'https://i.postimg.cc/9fBvKLqR/meitu.png',
+                        description: `Ứng dụng chỉnh sửa ảnh và làm đẹp chuyên nghiệp với AI tiên tiến và nhiều filter độc đáo.
+
+Tính năng nổi bật:
+• AI làm đẹp tự nhiên
+• Hàng trăm filter nghệ thuật
+• Chỉnh sửa ảnh chuyên nghiệp
+• Tạo avatar AI
+• Xóa phông nền thông minh
+• Ghép ảnh sáng tạo
+• Hiệu ứng makeup ảo
+
+Ứng dụng số 1 về làm đẹp và chỉnh sửa ảnh.`,
+                        category: 'Photo',
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    }
+                };
+            }
+
+            loadResources() {
+                const saved = localStorage.getItem('shopResources');
+                return saved ? JSON.parse(saved) : {
+                    1: {
+                        id: 1,
+                        name: 'Template Photoshop miễn phí',
+                        type: 'Template',
+                        image: 'https://i.postimg.cc/FsMRtbQw/ADOBE.png',
+                        description: '100+ template Photoshop chất lượng cao cho thiết kế poster, banner, social media',
+                        size: '245 MB',
+                        downloads: 1234,
+                        downloadUrl: 'https://drive.google.com/sample1',
+                        createdAt: new Date().toISOString()
+                    },
+                    2: {
+                        id: 2,
+                        name: 'Font chữ Việt đẹp',
+                        type: 'Font',
+                        image: 'https://i.postimg.cc/QdRvSPgM/canva.png',
+                        description: 'Bộ sưu tập 50+ font chữ Việt Nam đẹp, hỗ trợ đầy đủ dấu tiếng Việt',
+                        size: '89 MB',
+                        downloads: 856,
+                        downloadUrl: 'https://drive.google.com/sample2',
+                        createdAt: new Date().toISOString()
+                    },
+                    3: {
+                        id: 3,
+                        name: 'Stock Photos HD',
+                        type: 'Photo',
+                        image: 'https://i.postimg.cc/Y0qNzLq7/capcut.png',
+                        description: '500+ ảnh stock chất lượng cao miễn phí cho thiết kế và marketing',
+                        size: '1.2 GB',
+                        downloads: 2145,
+                        downloadUrl: 'https://drive.google.com/sample3',
+                        createdAt: new Date().toISOString()
+                    },
+                    4: {
+                        id: 4,
+                        name: 'Icon Pack Premium',
+                        type: 'Template',
+                        image: 'https://i.postimg.cc/8zNwxQqL/drive.png',
+                        description: '1000+ icon vector chất lượng cao cho web và mobile app',
+                        size: '156 MB',
+                        downloads: 967,
+                        downloadUrl: 'https://drive.google.com/sample4',
+                        createdAt: new Date().toISOString()
+                    }
+                };
+            }
+
+            loadCategories() {
+                const saved = localStorage.getItem('shopCategories');
+                return saved ? JSON.parse(saved) : {
+                    1: { id: 1, name: 'Adobe', description: 'Sản phẩm Adobe Creative Suite' },
+                    2: { id: 2, name: 'Design', description: 'Công cụ thiết kế đồ họa' },
+                    3: { id: 3, name: 'Video', description: 'Phần mềm chỉnh sửa video' },
+                    4: { id: 4, name: 'Storage', description: 'Dịch vụ lưu trữ đám mây' },
+                    5: { id: 5, name: 'OS', description: 'Hệ điều hành và phần mềm hệ thống' },
+                    6: { id: 6, name: 'Photo', description: 'Ứng dụng chỉnh sửa ảnh' }
+                };
+            }
+
+            // Save data to localStorage with storage monitoring
+            saveProducts() {
+                try {
+                    localStorage.setItem('shopProducts', JSON.stringify(this.products));
+                    this.checkStorageUsage();
+                } catch (error) {
+                    if (error.name === 'QuotaExceededError') {
+                        this.handleStorageQuotaExceeded('sản phẩm');
+                    } else {
+                        console.error('Error saving products:', error);
+                    }
+                }
+            }
+
+            saveResources() {
+                try {
+                    localStorage.setItem('shopResources', JSON.stringify(this.resources));
+                    this.checkStorageUsage();
+                } catch (error) {
+                    if (error.name === 'QuotaExceededError') {
+                        this.handleStorageQuotaExceeded('tài nguyên');
+                    } else {
+                        console.error('Error saving resources:', error);
+                    }
+                }
+            }
+
+            saveCategories() {
+                try {
+                    localStorage.setItem('shopCategories', JSON.stringify(this.categories));
+                    this.checkStorageUsage();
+                } catch (error) {
+                    if (error.name === 'QuotaExceededError') {
+                        this.handleStorageQuotaExceeded('danh mục');
+                    } else {
+                        console.error('Error saving categories:', error);
+                    }
+                }
+            }
+
+            handleStorageQuotaExceeded(dataType) {
+                const usage = this.getStorageUsage();
+                const message = `🚨 DUNG LƯỢNG ĐÃ ĐẦY!\n\n❌ Không thể lưu ${dataType} mới\n📊 Đã sử dụng: ${this.formatBytes(usage.used)}\n\n🔧 Giải pháp:\n• XUẤT DỮ LIỆU ngay để sao lưu\n• XÓA dữ liệu cũ không cần thiết\n• Sử dụng URL hình ảnh ngắn hơn\n• Làm mới trang và thử lại`;
+                
+                this.showEnhancedNotification('DUNG LƯỢNG ĐÃ ĐẦY!', message, 'error');
+                
+                // Also show browser alert for critical cases
+                alert('⚠️ DUNG LƯỢNG ĐÃ ĐẦY!\n\nKhông thể lưu dữ liệu mới. Vui lòng:\n• Xuất dữ liệu để sao lưu\n• Xóa bớt dữ liệu cũ\n• Làm mới trang và thử lại');
+            }
+
+            // Get next ID
+            getNextProductId() {
+                const ids = Object.keys(this.products).map(id => parseInt(id));
+                return ids.length > 0 ? Math.max(...ids) + 1 : 1;
+            }
+
+            getNextResourceId() {
+                const ids = Object.keys(this.resources).map(id => parseInt(id));
+                return ids.length > 0 ? Math.max(...ids) + 1 : 1;
+            }
+
+            getNextCategoryId() {
+                const ids = Object.keys(this.categories).map(id => parseInt(id));
+                return ids.length > 0 ? Math.max(...ids) + 1 : 1;
+            }
+
+            // CRUD operations for products
+            addProduct(productData) {
+                const id = this.getNextProductId();
+                this.products[id] = {
+                    id: id,
+                    ...productData,
+                    createdAt: new Date().toISOString()
+                };
+                this.saveProducts();
+                return id;
+            }
+
+            updateProduct(id, productData) {
+                if (this.products[id]) {
+                    this.products[id] = {
+                        ...this.products[id],
+                        ...productData,
+                        updatedAt: new Date().toISOString()
+                    };
+                    this.saveProducts();
+                    return true;
+                }
+                return false;
+            }
+
+            deleteProduct(id) {
+                if (this.products[id]) {
+                    delete this.products[id];
+                    this.saveProducts();
+                    return true;
+                }
+                return false;
+            }
+
+            // CRUD operations for resources
+            addResource(resourceData) {
+                const id = this.getNextResourceId();
+                this.resources[id] = {
+                    id: id,
+                    ...resourceData,
+                    downloads: 0,
+                    createdAt: new Date().toISOString()
+                };
+                this.saveResources();
+                return id;
+            }
+
+            updateResource(id, resourceData) {
+                if (this.resources[id]) {
+                    this.resources[id] = {
+                        ...this.resources[id],
+                        ...resourceData,
+                        updatedAt: new Date().toISOString()
+                    };
+                    this.saveResources();
+                    return true;
+                }
+                return false;
+            }
+
+            deleteResource(id) {
+                if (this.resources[id]) {
+                    delete this.resources[id];
+                    this.saveResources();
+                    return true;
+                }
+                return false;
+            }
+
+            // CRUD operations for categories
+            addCategory(categoryData) {
+                const id = this.getNextCategoryId();
+                this.categories[id] = {
+                    id: id,
+                    ...categoryData,
+                    createdAt: new Date().toISOString()
+                };
+                this.saveCategories();
+                return id;
+            }
+
+            updateCategory(id, categoryData) {
+                if (this.categories[id]) {
+                    this.categories[id] = {
+                        ...this.categories[id],
+                        ...categoryData,
+                        updatedAt: new Date().toISOString()
+                    };
+                    this.saveCategories();
+                    return true;
+                }
+                return false;
+            }
+
+            deleteCategory(id) {
+                if (this.categories[id]) {
+                    delete this.categories[id];
+                    this.saveCategories();
+                    return true;
+                }
+                return false;
+            }
+
+            // Filter and search
+            getFilteredProducts() {
+                let filtered = Object.values(this.products);
+                
+                // Apply category filter
+                if (this.currentFilter !== 'all') {
+                    filtered = filtered.filter(product => product.category === this.currentFilter);
+                }
+                
+                // Apply search filter
+                if (this.searchTerm) {
+                    const term = this.searchTerm.toLowerCase();
+                    filtered = filtered.filter(product => 
+                        product.name.toLowerCase().includes(term) ||
+                        product.description.toLowerCase().includes(term) ||
+                        product.category.toLowerCase().includes(term)
+                    );
+                }
+                
+                return filtered;
+            }
+
+            // Pagination
+            getPaginatedProducts() {
+                const filtered = this.getFilteredProducts();
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                return filtered.slice(startIndex, endIndex);
+            }
+
+            getTotalPages() {
+                const filtered = this.getFilteredProducts();
+                return Math.ceil(filtered.length / this.itemsPerPage);
+            }
+
+            // Resources pagination
+            getPaginatedResources() {
+                const resources = Object.values(this.resources);
+                const startIndex = (this.resourcesCurrentPage - 1) * this.resourcesItemsPerPage;
+                const endIndex = startIndex + this.resourcesItemsPerPage;
+                return resources.slice(startIndex, endIndex);
+            }
+
+            getResourcesTotalPages() {
+                const resources = Object.values(this.resources);
+                return Math.ceil(resources.length / this.resourcesItemsPerPage);
+            }
+
+            // Admin pagination
+            getAdminPaginatedProducts() {
+                const products = Object.values(this.products);
+                const startIndex = (this.adminCurrentPage - 1) * this.adminItemsPerPage;
+                const endIndex = startIndex + this.adminItemsPerPage;
+                return products.slice(startIndex, endIndex);
+            }
+
+            getAdminProductsTotalPages() {
+                const products = Object.values(this.products);
+                return Math.ceil(products.length / this.adminItemsPerPage);
+            }
+
+            getAdminPaginatedResources() {
+                const resources = Object.values(this.resources);
+                const startIndex = (this.adminCurrentPage - 1) * this.adminItemsPerPage;
+                const endIndex = startIndex + this.adminItemsPerPage;
+                return resources.slice(startIndex, endIndex);
+            }
+
+            getAdminResourcesTotalPages() {
+                const resources = Object.values(this.resources);
+                return Math.ceil(resources.length / this.adminItemsPerPage);
+            }
+
+            // Export/Import
+            exportData() {
+                const data = {
+                    products: this.products,
+                    resources: this.resources,
+                    categories: this.categories,
+                    exportDate: new Date().toISOString()
+                };
+                return JSON.stringify(data, null, 2);
+            }
+
+            importData(jsonData) {
+                try {
+                    const data = JSON.parse(jsonData);
+                    if (data.products) {
+                        this.products = data.products;
+                        this.saveProducts();
+                    }
+                    if (data.resources) {
+                        this.resources = data.resources;
+                        this.saveResources();
+                    }
+                    if (data.categories) {
+                        this.categories = data.categories;
+                        this.saveCategories();
+                    }
+                    return true;
+                } catch (error) {
+                    console.error('Import error:', error);
+                    return false;
+                }
+            }
+        }
+
+        // Initialize data manager
+        const dataManager = new DataManager();
+
+        // Admin functionality
+        let adminClickCount = 0;
+        const adminPassword = 'admin123';
+
+        function handleAdminClick() {
+            adminClickCount++;
+            if (adminClickCount >= 7) {
+                showAdminLogin();
+                adminClickCount = 0;
+            }
+        }
+
+        function showAdminLogin() {
+            document.getElementById('adminLoginModal').classList.add('show');
+            document.getElementById('adminPassword').focus();
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('adminLoginModal').classList.remove('show');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === adminPassword) {
+                closeAdminLogin();
+                showAdminPanel();
+            } else {
+                alert('Mật khẩu không đúng! Vui lòng thử lại.');
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('adminPassword').focus();
+            }
+        }
+
+        function showAdminPanel() {
+            document.getElementById('adminPanel').classList.remove('hidden');
+            updateAdminStats();
+            loadAdminProducts();
+            loadAdminResources();
+            loadAdminCategories();
+        }
+
+        function logout() {
+            document.getElementById('adminPanel').classList.add('hidden');
+        }
+
+        // Update admin statistics
+        function updateAdminStats() {
+            document.getElementById('totalProducts').textContent = Object.keys(dataManager.products).length;
+            document.getElementById('totalResources').textContent = Object.keys(dataManager.resources).length;
+            document.getElementById('totalCategories').textContent = Object.keys(dataManager.categories).length;
+            updateStorageDisplay();
+        }
+
+        // Storage management functions
+        function updateStorageDisplay() {
+            const usage = dataManager.getStorageUsage();
+            const usageDisplay = document.getElementById('storageUsageDisplay');
+            const percentageDisplay = document.getElementById('storagePercentage');
+            
+            if (usageDisplay && percentageDisplay) {
+                usageDisplay.textContent = dataManager.formatBytes(usage.used);
+                percentageDisplay.textContent = `${usage.percentage.toFixed(1)}% đã sử dụng`;
+                
+                // Change color based on usage
+                if (usage.percentage >= 95) {
+                    usageDisplay.className = 'text-2xl font-bold text-red-200';
+                    percentageDisplay.className = 'text-xs text-red-200 mt-1';
+                } else if (usage.percentage >= 80) {
+                    usageDisplay.className = 'text-2xl font-bold text-yellow-200';
+                    percentageDisplay.className = 'text-xs text-yellow-200 mt-1';
+                } else {
+                    usageDisplay.className = 'text-2xl font-bold';
+                    percentageDisplay.className = 'text-xs text-purple-200 mt-1';
+                }
+            }
+        }
+
+        function showStorageDetails() {
+            const usage = dataManager.getStorageUsage();
+            
+            // Update modal content
+            document.getElementById('modalStorageUsed').textContent = dataManager.formatBytes(usage.used);
+            document.getElementById('modalStorageRemaining').textContent = dataManager.formatBytes(usage.remaining);
+            document.getElementById('modalStoragePercentage').textContent = `${usage.percentage.toFixed(1)}%`;
+            
+            // Update progress bar
+            const progressBar = document.getElementById('modalStorageBar');
+            progressBar.style.width = `${Math.min(usage.percentage, 100)}%`;
+            
+            // Change progress bar color based on usage
+            if (usage.percentage >= 95) {
+                progressBar.className = 'bg-red-400 h-3 rounded-full transition-all duration-300';
+            } else if (usage.percentage >= 80) {
+                progressBar.className = 'bg-yellow-400 h-3 rounded-full transition-all duration-300';
+            } else {
+                progressBar.className = 'bg-white h-3 rounded-full transition-all duration-300';
+            }
+            
+            // Calculate individual storage sizes
+            const productsData = JSON.stringify(dataManager.products);
+            const resourcesData = JSON.stringify(dataManager.resources);
+            const categoriesData = JSON.stringify(dataManager.categories);
+            
+            document.getElementById('productsStorageSize').textContent = dataManager.formatBytes(productsData.length);
+            document.getElementById('productsCount').textContent = `${Object.keys(dataManager.products).length} sản phẩm`;
+            
+            document.getElementById('resourcesStorageSize').textContent = dataManager.formatBytes(resourcesData.length);
+            document.getElementById('resourcesCount').textContent = `${Object.keys(dataManager.resources).length} tài nguyên`;
+            
+            document.getElementById('categoriesStorageSize').textContent = dataManager.formatBytes(categoriesData.length);
+            document.getElementById('categoriesCount').textContent = `${Object.keys(dataManager.categories).length} danh mục`;
+            
+            // Show modal
+            document.getElementById('storageModal').classList.add('show');
+        }
+
+        function closeStorageModal() {
+            document.getElementById('storageModal').classList.remove('show');
+        }
+
+        function refreshStorageInfo() {
+            updateStorageDisplay();
+            showStorageDetails();
+        }
+
+        // Admin tab functionality
+        function showAdminTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.admin-tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + 'Tab').classList.remove('hidden');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+
+            // Load data for the selected tab
+            if (tabName === 'products') {
+                loadAdminProducts();
+            } else if (tabName === 'resources') {
+                loadAdminResources();
+            } else if (tabName === 'categories') {
+                loadAdminCategories();
+            }
+        }
+
+        // Load admin products
+        function loadAdminProducts() {
+            const products = dataManager.getAdminPaginatedProducts();
+            const tbody = document.getElementById('productsTableBody');
+            
+            tbody.innerHTML = products.map(product => `
+                <tr>
+                    <td>${product.id}</td>
+                    <td>${product.name}</td>
+                    <td>${product.price}</td>
+                    <td>${product.category}</td>
+                    <td>
+                        <span class="bg-${product.status === 'active' ? 'green' : 'red'}-100 text-${product.status === 'active' ? 'green' : 'red'}-800 px-3 py-1 rounded-full text-sm">
+                            ${product.status === 'active' ? 'Hoạt động' : 'Không hoạt động'}
+                        </span>
+                    </td>
+                    <td>
+                        <button onclick="editProduct(${product.id})" class="text-blue-600 hover:text-blue-800 mr-3">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteProductConfirm(${product.id})" class="text-red-600 hover:text-red-800" title="Xóa sản phẩm">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Load pagination
+            loadAdminProductsPagination();
+        }
+
+        function loadAdminProductsPagination() {
+            const totalPages = dataManager.getAdminProductsTotalPages();
+            const currentPage = dataManager.adminCurrentPage;
+            const pagination = document.getElementById('adminProductsPagination');
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `<button onclick="changeAdminProductsPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-left"></i>
+            </button>`;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `<button onclick="changeAdminProductsPage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            // Next button
+            paginationHTML += `<button onclick="changeAdminProductsPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                <i class="fas fa-chevron-right"></i>
+            </button>`;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        function changeAdminProductsPage(page) {
+            const totalPages = dataManager.getAdminProductsTotalPages();
+            if (page >= 1 && page <= totalPages) {
+                dataManager.adminCurrentPage = page;
+                loadAdminProducts();
+            }
+        }
+
+        // Load admin resources
+        function loadAdminResources() {
+            const resources = dataManager.getAdminPaginatedResources();
+            const tbody = document.getElementById('resourcesTableBody');
+            
+            tbody.innerHTML = resources.map(resource => `
+                <tr>
+                    <td>${resource.id}</td>
+                    <td>${resource.name}</td>
+                    <td><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">${resource.type}</span></td>
+                    <td>${resource.size || 'N/A'}</td>
+                    <td>${resource.downloads}</td>
+                    <td>
+                        <button onclick="editResource(${resource.id})" class="text-blue-600 hover:text-blue-800 mr-3">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteResourceConfirm(${resource.id})" class="text-red-600 hover:text-red-800" title="Xóa tài nguyên">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Load pagination
+            loadAdminResourcesPagination();
+        }
+
+        function loadAdminResourcesPagination() {
+            const totalPages = dataManager.getAdminResourcesTotalPages();
+            const currentPage = dataManager.adminCurrentPage;
+            const pagination = document.getElementById('adminResourcesPagination');
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `<button onclick="changeAdminResourcesPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-left"></i>
+            </button>`;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `<button onclick="changeAdminResourcesPage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            // Next button
+            paginationHTML += `<button onclick="changeAdminResourcesPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                <i class="fas fa-chevron-right"></i>
+            </button>`;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        function changeAdminResourcesPage(page) {
+            const totalPages = dataManager.getAdminResourcesTotalPages();
+            if (page >= 1 && page <= totalPages) {
+                dataManager.adminCurrentPage = page;
+                loadAdminResources();
+            }
+        }
+
+        // Load admin categories
+        function loadAdminCategories() {
+            const categories = Object.values(dataManager.categories);
+            const tbody = document.getElementById('categoriesTableBody');
+            
+            tbody.innerHTML = categories.map(category => {
+                const productCount = Object.values(dataManager.products).filter(p => p.category === category.name).length;
+                return `
+                    <tr>
+                        <td>${category.id}</td>
+                        <td>${category.name}</td>
+                        <td>${category.description || 'N/A'}</td>
+                        <td>${productCount}</td>
+                        <td>
+                            <button onclick="editCategory(${category.id})" class="text-blue-600 hover:text-blue-800 mr-3">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteCategoryConfirm(${category.id})" class="text-red-600 hover:text-red-800" title="Xóa danh mục">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Product CRUD functions
+        function showAddProductModal() {
+            document.getElementById('productModalTitle').textContent = 'Thêm sản phẩm mới';
+            document.getElementById('productForm').reset();
+            document.getElementById('productId').value = '';
+            loadCategoriesInSelect('productCategory');
+            document.getElementById('productModal').classList.add('show');
+        }
+
+        function editProduct(id) {
+            const product = dataManager.products[id];
+            if (product) {
+                document.getElementById('productModalTitle').textContent = 'Chỉnh sửa sản phẩm';
+                document.getElementById('productId').value = product.id;
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productPrice').value = product.priceNumber;
+                document.getElementById('productImage').value = product.image;
+                document.getElementById('productCategory').value = product.category;
+                document.getElementById('productDescription').value = product.description;
+                document.getElementById('productStatus').value = product.status;
+                loadCategoriesInSelect('productCategory');
+                document.getElementById('productModal').classList.add('show');
+            }
+        }
+
+        // Simple delete functions - no security, just delete
+        function deleteProductConfirm(id) {
+            dataManager.deleteProduct(parseInt(id));
+            refreshAfterProductDelete();
+        }
+
+        function deleteResourceConfirm(id) {
+            dataManager.deleteResource(parseInt(id));
+            refreshAfterResourceDelete();
+        }
+
+        function deleteCategoryConfirm(id) {
+            dataManager.deleteCategory(parseInt(id));
+            refreshAfterCategoryDelete();
+        }
+
+        // Helper functions for refresh after deletions
+        function refreshAfterProductDelete() {
+            loadAdminProducts();
+            updateAdminStats();
+            loadProducts();
+            loadCategories();
+        }
+
+        function refreshAfterResourceDelete() {
+            loadAdminResources();
+            updateAdminStats();
+            loadResources();
+        }
+
+        function refreshAfterCategoryDelete() {
+            loadAdminCategories();
+            updateAdminStats();
+            loadCategories();
+            dataManager.currentFilter = 'all';
+            dataManager.currentPage = 1;
+            loadProducts();
+        }
+
+        // Enhanced notification system
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-md transition-all duration-300 transform translate-x-full`;
+            
+            // Set colors based on type
+            const colors = {
+                success: 'bg-green-500 text-white',
+                error: 'bg-red-500 text-white',
+                warning: 'bg-yellow-500 text-black',
+                info: 'bg-blue-500 text-white'
+            };
+            
+            notification.className += ` ${colors[type] || colors.info}`;
+            notification.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium whitespace-pre-line">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-3 text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (notification.parentElement) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('show');
+        }
+
+        // Resource CRUD functions
+        function showAddResourceModal() {
+            document.getElementById('resourceModalTitle').textContent = 'Thêm tài nguyên mới';
+            document.getElementById('resourceForm').reset();
+            document.getElementById('resourceId').value = '';
+            document.getElementById('resourceModal').classList.add('show');
+        }
+
+        function editResource(id) {
+            const resource = dataManager.resources[id];
+            if (resource) {
+                document.getElementById('resourceModalTitle').textContent = 'Chỉnh sửa tài nguyên';
+                document.getElementById('resourceId').value = resource.id;
+                document.getElementById('resourceName').value = resource.name;
+                document.getElementById('resourceType').value = resource.type;
+                document.getElementById('resourceImage').value = resource.image;
+                document.getElementById('resourceDescription').value = resource.description;
+                document.getElementById('resourceSize').value = resource.size || '';
+                document.getElementById('resourceDownloadUrl').value = resource.downloadUrl;
+                document.getElementById('resourceModal').classList.add('show');
+            }
+        }
+
+        function closeResourceModal() {
+            document.getElementById('resourceModal').classList.remove('show');
+        }
+
+        // Category CRUD functions
+        function showAddCategoryModal() {
+            document.getElementById('categoryModalTitle').textContent = 'Thêm danh mục mới';
+            document.getElementById('categoryForm').reset();
+            document.getElementById('categoryId').value = '';
+            document.getElementById('categoryModal').classList.add('show');
+        }
+
+        function editCategory(id) {
+            const category = dataManager.categories[id];
+            if (category) {
+                document.getElementById('categoryModalTitle').textContent = 'Chỉnh sửa danh mục';
+                document.getElementById('categoryId').value = category.id;
+                document.getElementById('categoryName').value = category.name;
+                document.getElementById('categoryDescription').value = category.description || '';
+                document.getElementById('categoryModal').classList.add('show');
+            }
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.remove('show');
+        }
+
+        // Load categories in select
+        function loadCategoriesInSelect(selectId) {
+            const select = document.getElementById(selectId);
+            const categories = Object.values(dataManager.categories);
+            
+            select.innerHTML = categories.map(category => 
+                `<option value="${category.name}">${category.name}</option>`
+            ).join('');
+        }
+
+        // Form submissions
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('productId').value;
+            const name = document.getElementById('productName').value;
+            const priceNumber = parseInt(document.getElementById('productPrice').value);
+            const price = priceNumber.toLocaleString('vi-VN') + ' VNĐ';
+            const image = document.getElementById('productImage').value;
+            const category = document.getElementById('productCategory').value;
+            const description = document.getElementById('productDescription').value;
+            const status = document.getElementById('productStatus').value;
+            
+            const productData = {
+                name,
+                price,
+                priceNumber,
+                image,
+                category,
+                description,
+                status
+            };
+            
+            if (id) {
+                // Update existing product
+                if (dataManager.updateProduct(parseInt(id), productData)) {
+                    alert('✅ Cập nhật sản phẩm thành công!\n\n📁 Dữ liệu đã được lưu vào localStorage và sẽ được giữ nguyên khi tải lại trang.\n💾 Để sao lưu an toàn, hãy sử dụng chức năng "Xuất dữ liệu".');
+                }
+            } else {
+                // Add new product
+                dataManager.addProduct(productData);
+                alert('✅ Thêm sản phẩm thành công!\n\n📁 Dữ liệu đã được lưu vào localStorage và sẽ được giữ nguyên khi tải lại trang.\n💾 Để sao lưu an toàn, hãy sử dụng chức năng "Xuất dữ liệu".');
+            }
+            
+            closeProductModal();
+            loadAdminProducts();
+            updateAdminStats();
+            loadProducts();
+        });
+
+        document.getElementById('resourceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('resourceId').value;
+            const name = document.getElementById('resourceName').value;
+            const type = document.getElementById('resourceType').value;
+            const image = document.getElementById('resourceImage').value;
+            const description = document.getElementById('resourceDescription').value;
+            const size = document.getElementById('resourceSize').value;
+            const downloadUrl = document.getElementById('resourceDownloadUrl').value;
+            
+            const resourceData = {
+                name,
+                type,
+                image,
+                description,
+                size,
+                downloadUrl
+            };
+            
+            if (id) {
+                // Update existing resource
+                if (dataManager.updateResource(parseInt(id), resourceData)) {
+                    alert('✅ Cập nhật tài nguyên thành công!\n\n📁 Dữ liệu đã được lưu vào localStorage và sẽ được giữ nguyên khi tải lại trang.\n💾 Để sao lưu an toàn, hãy sử dụng chức năng "Xuất dữ liệu".');
+                }
+            } else {
+                // Add new resource
+                dataManager.addResource(resourceData);
+                alert('✅ Thêm tài nguyên thành công!\n\n📁 Dữ liệu đã được lưu vào localStorage và sẽ được giữ nguyên khi tải lại trang.\n💾 Để sao lưu an toàn, hãy sử dụng chức năng "Xuất dữ liệu".');
+            }
+            
+            closeResourceModal();
+            loadAdminResources();
+            updateAdminStats();
+            loadResources();
+        });
+
+        document.getElementById('categoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('categoryId').value;
+            const name = document.getElementById('categoryName').value;
+            const description = document.getElementById('categoryDescription').value;
+            
+            const categoryData = {
+                name,
+                description
+            };
+            
+            if (id) {
+                // Update existing category
+                if (dataManager.updateCategory(parseInt(id), categoryData)) {
+                    alert('✅ Cập nhật danh mục thành công!\n\n📁 Dữ liệu đã được lưu vào localStorage và sẽ được giữ nguyên khi tải lại trang.\n💾 Để sao lưu an toàn, hãy sử dụng chức năng "Xuất dữ liệu".');
+                }
+            } else {
+                // Add new category
+                dataManager.addCategory(categoryData);
+                alert('✅ Thêm danh mục thành công!\n\n📁 Dữ liệu đã được lưu vào localStorage và sẽ được giữ nguyên khi tải lại trang.\n💾 Để sao lưu an toàn, hãy sử dụng chức năng "Xuất dữ liệu".');
+            }
+            
+            closeCategoryModal();
+            loadAdminCategories();
+            updateAdminStats();
+            loadCategories();
+        });
+
+        // Export/Import functions
+        function exportData() {
+            const data = dataManager.exportData();
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `shop-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function showImportModal() {
+            document.getElementById('importModal').classList.add('show');
+        }
+
+        function closeImportModal() {
+            document.getElementById('importModal').classList.remove('show');
+            document.getElementById('importFile').value = '';
+        }
+
+        function importData() {
+            const fileInput = document.getElementById('importFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Vui lòng chọn file để nhập!');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const jsonData = e.target.result;
+                if (dataManager.importData(jsonData)) {
+                    alert('✅ Nhập dữ liệu thành công!\n\n📁 Tất cả dữ liệu đã được lưu vào localStorage và sẽ được giữ nguyên khi tải lại trang.\n🔄 Giao diện đã được cập nhật với dữ liệu mới.');
+                    closeImportModal();
+                    updateAdminStats();
+                    loadAdminProducts();
+                    loadAdminResources();
+                    loadAdminCategories();
+                    loadProducts();
+                    loadResources();
+                    loadCategories();
+                } else {
+                    alert('❌ Lỗi khi nhập dữ liệu!\n\nVui lòng kiểm tra:\n• File phải có định dạng JSON\n• Cấu trúc dữ liệu phải đúng\n• File không bị lỗi hoặc hỏng');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Frontend functions
+        function loadProducts() {
+            const products = dataManager.getPaginatedProducts();
+            const grid = document.getElementById('productsGrid');
+            
+            grid.innerHTML = products.map(product => `
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in border border-gray-100 h-full">
+                    <div class="p-5 h-full flex flex-col">
+                        <div class="text-center mb-4">
+                            <div class="w-full aspect-square mx-auto mb-4 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center shadow-md">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1 leading-tight">${product.name}</h3>
+                        </div>
+                        <div class="mb-3 flex-grow">
+                            <p class="text-gray-600 text-sm leading-snug overflow-hidden">${product.description.substring(0, 100)}...</p>
+                        </div>
+                        <div class="mb-4 text-center">
+                            <span class="text-2xl font-bold price-highlight">${product.price}</span>
+                        </div>
+                        <div class="flex space-x-2 mt-auto">
+                            <button onclick="showProductDetail(${product.id})" class="flex-1 bg-gray-500 text-white py-3 px-3 rounded-lg hover:bg-gray-600 transition-all font-medium text-sm">
+                                Chi tiết
+                            </button>
+                            <button onclick="orderProduct('${product.name}')" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 px-3 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all font-medium text-sm">
+                                <i class="fab fa-facebook mr-1"></i>Mua
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            loadProductsPagination();
+        }
+
+        function loadProductsPagination() {
+            const totalPages = dataManager.getTotalPages();
+            const currentPage = dataManager.currentPage;
+            const pagination = document.getElementById('productsPagination');
+            
+            // Always show pagination if there are products, even if only 1 page
+            const totalProducts = dataManager.getFilteredProducts().length;
+            
+            if (totalProducts === 0) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `<button onclick="changeProductsPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-left mr-1"></i>Previous
+            </button>`;
+            
+            // Smart pagination - show limited page numbers for better UX
+            const maxVisiblePages = 10;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start page if we're near the end
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page and ellipsis
+            if (startPage > 1) {
+                paginationHTML += `<button onclick="changeProductsPage(1)" class="">1</button>`;
+                if (startPage > 2) {
+                    paginationHTML += `<span class="px-3 py-2 text-gray-500">...</span>`;
+                }
+            }
+            
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `<button onclick="changeProductsPage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            // Last page and ellipsis
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<span class="px-3 py-2 text-gray-500">...</span>`;
+                }
+                paginationHTML += `<button onclick="changeProductsPage(${totalPages})" class="">${totalPages}</button>`;
+            }
+            
+            // Next button
+            paginationHTML += `<button onclick="changeProductsPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                Next<i class="fas fa-chevron-right ml-1"></i>
+            </button>`;
+            
+            pagination.innerHTML = paginationHTML;
+            
+            // Show pagination info with unlimited capacity
+            const startItem = (currentPage - 1) * dataManager.itemsPerPage + 1;
+            const endItem = Math.min(currentPage * dataManager.itemsPerPage, totalProducts);
+            
+            // Clean pagination without extra info text
+        }
+
+        function changeProductsPage(page) {
+            const totalPages = dataManager.getTotalPages();
+            if (page >= 1 && page <= totalPages) {
+                dataManager.currentPage = page;
+                loadProducts();
+            }
+        }
+
+        function loadResourcesPagination() {
+            const totalPages = dataManager.getResourcesTotalPages();
+            const currentPage = dataManager.resourcesCurrentPage;
+            const pagination = document.getElementById('resourcesPagination');
+            
+            // Always show pagination if there are resources, even if only 1 page
+            const totalResources = Object.values(dataManager.resources).length;
+            
+            if (totalResources === 0) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `<button onclick="changeResourcesPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-left mr-1"></i>Previous
+            </button>`;
+            
+            // Smart pagination for resources
+            const maxVisiblePages = 10;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start page if we're near the end
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page and ellipsis
+            if (startPage > 1) {
+                paginationHTML += `<button onclick="changeResourcesPage(1)" class="">1</button>`;
+                if (startPage > 2) {
+                    paginationHTML += `<span class="px-3 py-2 text-gray-500">...</span>`;
+                }
+            }
+            
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `<button onclick="changeResourcesPage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            // Last page and ellipsis
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<span class="px-3 py-2 text-gray-500">...</span>`;
+                }
+                paginationHTML += `<button onclick="changeResourcesPage(${totalPages})" class="">${totalPages}</button>`;
+            }
+            
+            // Next button
+            paginationHTML += `<button onclick="changeResourcesPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                Next<i class="fas fa-chevron-right ml-1"></i>
+            </button>`;
+            
+            pagination.innerHTML = paginationHTML;
+            
+            // Show pagination info with unlimited capacity
+            const startItem = (currentPage - 1) * dataManager.resourcesItemsPerPage + 1;
+            const endItem = Math.min(currentPage * dataManager.resourcesItemsPerPage, totalResources);
+            
+            // Clean pagination without extra info text
+        }
+
+        function changeResourcesPage(page) {
+            const totalPages = dataManager.getResourcesTotalPages();
+            if (page >= 1 && page <= totalPages) {
+                dataManager.resourcesCurrentPage = page;
+                loadResources();
+            }
+        }
+
+        function loadResources() {
+            const resources = dataManager.getPaginatedResources();
+            const grid = document.getElementById('resourcesGrid');
+            
+            grid.innerHTML = resources.map(resource => `
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover fade-in h-full">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="text-center mb-6">
+                            <div class="w-full aspect-square mx-auto mb-4 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center shadow-md">
+                                <img src="${resource.image}" alt="${resource.name}" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">${resource.name}</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3 flex-grow leading-snug">${resource.description}</p>
+                        <div class="mb-4 text-center">
+                            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">${resource.type}</span>
+                        </div>
+                        <div class="mt-auto">
+                            <button onclick="downloadResource('${resource.downloadUrl}')" class="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 rounded-xl hover:from-green-700 hover:to-blue-700 transition-all font-medium text-base">
+                                <i class="fas fa-download mr-2"></i>Tải xuống miễn phí
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            loadResourcesPagination();
+        }
+
+        function loadCategories() {
+            const categories = Object.values(dataManager.categories);
+            const filter = document.getElementById('categoriesFilter');
+            
+            let categoriesHTML = `
+                <button onclick="filterByCategory('all')" class="category-btn ${dataManager.currentFilter === 'all' ? 'active' : ''} bg-white text-gray-700 border border-gray-200 px-6 py-3 rounded-full text-sm font-medium shadow-md">
+                    Tất cả
+                </button>
+            `;
+            
+            categoriesHTML += categories.map(category => `
+                <button onclick="filterByCategory('${category.name}')" class="category-btn ${dataManager.currentFilter === category.name ? 'active' : ''} bg-white text-gray-700 border border-gray-200 px-6 py-3 rounded-full text-sm font-medium shadow-md hover:border-indigo-300 hover:bg-indigo-50">
+                    ${category.name}
+                </button>
+            `).join('');
+            
+            filter.innerHTML = categoriesHTML;
+        }
+
+        // Filter functionality
+        function filterByCategory(category) {
+            dataManager.currentFilter = category;
+            dataManager.currentPage = 1;
+            loadProducts();
+            loadCategories();
+        }
+
+        // Search functionality
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value;
+            dataManager.searchTerm = searchTerm;
+            dataManager.currentPage = 1;
+            loadProducts();
+        }
+
+        // Product detail modal
+        function showProductDetail(productId) {
+            const product = dataManager.products[productId];
+            
+            document.getElementById('productDetailContent').innerHTML = `
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-3xl font-bold text-gray-800">${product.name}</h3>
+                    <button onclick="closeProductDetail()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="text-center mb-8">
+                    <img src="${product.image}" alt="${product.name}" class="w-32 h-32 mx-auto mb-6 rounded-2xl object-cover" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                    <span class="text-4xl font-bold text-indigo-600">${product.price}</span>
+                </div>
+                <div class="mb-8">
+                    <h4 class="font-bold mb-4 text-xl">Mô tả chi tiết:</h4>
+                    <div class="text-gray-600 text-lg leading-relaxed whitespace-pre-line">${product.description}</div>
+                </div>
+                <div class="mb-8">
+                    <h4 class="font-bold mb-4 text-xl">Danh mục:</h4>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-lg font-medium">${product.category}</span>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="orderProduct('${product.name}')" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all font-medium text-lg">
+                        <i class="fab fa-facebook mr-2"></i>Đặt mua ngay
+                    </button>
+                    <button onclick="closeProductDetail()" class="flex-1 bg-gray-300 text-gray-700 py-4 rounded-xl hover:bg-gray-400 transition-all font-medium text-lg">Đóng</button>
+                </div>
+            `;
+            
+            document.getElementById('productDetailModal').classList.add('show');
+        }
+
+        function closeProductDetail() {
+            document.getElementById('productDetailModal').classList.remove('show');
+        }
+
+        // Order product (redirect to Facebook)
+        function orderProduct(productName) {
+            const message = `Xin chào! Tôi muốn đặt mua sản phẩm: ${productName}`;
+            const facebookUrl = `https://www.facebook.com/retouchhdr`;
+            window.open(facebookUrl, '_blank');
+        }
+
+        // Download resource
+        function downloadResource(link) {
+            window.open(link, '_blank');
+        }
+
+        // Scroll to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', function() {
+            const scrollButton = document.querySelector('.scroll-to-top');
+            if (window.pageYOffset > 300) {
+                scrollButton.classList.add('show');
+            } else {
+                scrollButton.classList.remove('show');
+            }
+        });
+
+        // Stats counter animation
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 20);
+        }
+
+        // Intersection Observer for stats animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stats-counter');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        animateCounter(counter, target);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        // Enhanced notification system with better UX
+        function showEnhancedNotification(title, message, type = 'success') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.enhanced-notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `enhanced-notification fixed top-4 right-4 z-50 max-w-md transition-all duration-300 transform translate-x-full`;
+            
+            // Set colors and icons based on type
+            const config = {
+                success: { 
+                    bg: 'bg-green-500', 
+                    icon: 'fas fa-check-circle',
+                    border: 'border-green-400'
+                },
+                error: { 
+                    bg: 'bg-red-500', 
+                    icon: 'fas fa-exclamation-circle',
+                    border: 'border-red-400'
+                },
+                warning: { 
+                    bg: 'bg-yellow-500', 
+                    icon: 'fas fa-exclamation-triangle',
+                    border: 'border-yellow-400'
+                },
+                info: { 
+                    bg: 'bg-blue-500', 
+                    icon: 'fas fa-info-circle',
+                    border: 'border-blue-400'
+                }
+            };
+            
+            const typeConfig = config[type] || config.success;
+            
+            notification.innerHTML = `
+                <div class="bg-white rounded-xl shadow-2xl border-l-4 ${typeConfig.border} overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 ${typeConfig.bg} rounded-full flex items-center justify-center">
+                                    <i class="${typeConfig.icon} text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <h4 class="text-sm font-bold text-gray-900">${title}</h4>
+                                <p class="text-sm text-gray-600 mt-1">${message}</p>
+                            </div>
+                            <button onclick="this.closest('.enhanced-notification').remove()" class="ml-3 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (notification.parentElement) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // Enhanced loading state for buttons
+        function setButtonLoading(button, isLoading) {
+            if (isLoading) {
+                button.disabled = true;
+                button.innerHTML = `<div class="loading-spinner inline-block mr-2"></div>Đang xử lý...`;
+            } else {
+                button.disabled = false;
+                // Restore original content - this would need to be stored beforehand
+            }
+        }
+
+        // Smooth scroll for internal links
+        function smoothScrollTo(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Enhanced search with debouncing
+        let searchTimeout;
+        function searchProductsDebounced() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchProducts();
+            }, 300);
+        }
+
+        // Image lazy loading fallback
+        function handleImageError(img) {
+            img.style.display = 'none';
+            const placeholder = document.createElement('div');
+            placeholder.className = 'w-full h-full bg-gray-200 flex items-center justify-center text-gray-500';
+            placeholder.innerHTML = '<i class="fas fa-image text-4xl"></i>';
+            img.parentNode.appendChild(placeholder);
+        }
+
+        // Allow Enter key to login
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    adminLogin();
+                }
+            });
+
+            // Enhanced search input
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', searchProductsDebounced);
+
+            // Initialize stats observer
+            const statsSection = document.querySelector('.stats-counter').closest('section');
+            if (statsSection) {
+                statsObserver.observe(statsSection);
+            }
+
+            // Load initial data
+            loadProducts();
+            loadResources();
+            loadCategories();
+
+            // Add success animation to cards on load
+            setTimeout(() => {
+                document.querySelectorAll('.card-hover').forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('success-animation');
+                    }, index * 100);
+                });
+            }, 500);
+        });
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('show');
+            }
+        });
+
+        // Test storage warning function
+        function testStorageWarning() {
+            // Get actual current storage usage
+            const actualUsage = dataManager.getStorageUsage();
+            
+            // Test warning notification (simulate 80% full)
+            const warningUsage = {
+                used: actualUsage.used + (1 * 1024 * 1024), // Add 1MB to current usage
+                total: actualUsage.total,
+                percentage: 80,
+                remaining: actualUsage.total * 0.2 // 20% remaining
+            };
+            
+            dataManager.showStorageWarning(warningUsage);
+            
+            // Test critical notification after 3 seconds (simulate 95% full)
+            setTimeout(() => {
+                const criticalUsage = {
+                    used: actualUsage.used + (2 * 1024 * 1024), // Add 2MB to current usage
+                    total: actualUsage.total,
+                    percentage: 95,
+                    remaining: actualUsage.total * 0.05 // 5% remaining
+                };
+                
+                dataManager.showStorageCriticalWarning(criticalUsage);
+            }, 3000);
+            
+            // Test storage full error after 6 seconds (simulate 100% full)
+            setTimeout(() => {
+                const fullUsage = {
+                    used: actualUsage.total, // Use full capacity
+                    total: actualUsage.total,
+                    percentage: 100,
+                    remaining: 0
+                };
+                
+                const message = `🚨 DUNG LƯỢNG ĐÃ ĐẦY!\n\n❌ Không thể lưu sản phẩm test mới\n📊 Đã sử dụng: ${dataManager.formatBytes(fullUsage.used)} (${fullUsage.percentage}%)\n💾 Còn lại: ${dataManager.formatBytes(fullUsage.remaining)}\n\n🔧 Giải pháp:\n• XUẤT DỮ LIỆU ngay để sao lưu\n• XÓA dữ liệu cũ không cần thiết\n• Sử dụng URL hình ảnh ngắn hơn\n• Làm mới trang và thử lại`;
+                
+                dataManager.showEnhancedNotification('DUNG LƯỢNG ĐÃ ĐẦY!', message, 'error');
+            }, 6000);
+        }
+
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            // Close modals with Escape key
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.show').forEach(modal => {
+                    modal.classList.remove('show');
+                });
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975c2f70c17108dd',t:'MTc1NjMwNDE3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
